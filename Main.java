@@ -12,7 +12,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 700);
 	
-		frame.getContentPane().setBackground(Color.PINK);
+		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setVisible(true);
 	}
 }

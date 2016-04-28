@@ -17,7 +17,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	private SpaceShip v;	
 	
 	private Timer timer;
-
+	private long diff = 0;
+	private boolean triker = false;
 	private double difficulty = 0.1;
 	private long score = 0;
 
@@ -58,11 +59,25 @@ public class GameEngine implements KeyListener, GameReporter{
 		while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
 			e.proceed();
-			
+
+			if(diff > score % 30)
+				triker = true;
+
+			diff = score % 30;
+
+
 			if(!e.isAlive()){
+				if(e.width == 5){
+					score += 1;
+					if( ( timer.getDelay() >= 10 ) && ( triker == true ) ){
+						timer.setDelay(timer.getDelay() - 5);
+						triker = false;
+					}
+				}		
+
 				e_iter.remove();
 				gp.sprites.remove(e);
-				score += 10;
+
 			}
 		}
 		

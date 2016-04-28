@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.Timer;
 
 
-public class GameEngine implements KeyListener{
+public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -19,6 +19,7 @@ public class GameEngine implements KeyListener{
 	private Timer timer;
 
 	private double difficulty = 0.1;
+	private long score = 0;
 
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
@@ -61,10 +62,11 @@ public class GameEngine implements KeyListener{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
+				score += 10;
 			}
 		}
 		
-		gp.updateGameUI();
+		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
@@ -92,6 +94,10 @@ public class GameEngine implements KeyListener{
 		}
 	}
 	
+	public long getScore(){
+ 		return score;
+ 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controlVehicle(e);

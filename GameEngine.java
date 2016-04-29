@@ -15,7 +15,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private SpaceShip v;	
-	
+	private long lifepoint = 5;
 	private Timer timer;
 	private long diff = 0;
 	private boolean triker = false;
@@ -88,7 +88,11 @@ public class GameEngine implements KeyListener, GameReporter{
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
-				die();
+				if (e.getClashable() == true && e.width == 5)
+ 							lifepoint = lifepoint - 1;
+ 							e.setClashable(false);
+				if (lifepoint < 1)
+					die();
 				return;
 			}
 		}
@@ -111,6 +115,10 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	public long getScore(){
  		return score;
+ 	}
+
+ 	public long getLifepoint(){
+ 		return lifepoint;
  	}
 
 	@Override

@@ -25,6 +25,7 @@ public class GamePanel extends JPanel {
 	public void updateGameUI(GameEngine reporter){
 		big.clearRect(0, 0, 400, 600);
  		big.drawString(String.format("%08d", reporter.getScore()), 300, 20);
+ 		big.drawString(String.format("%d", reporter.getLifepoint()), 100, 20);
 		for(Sprite s : sprites){
 			if(s.width == 5)
 				s.draw(big);

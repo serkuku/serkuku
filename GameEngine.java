@@ -14,13 +14,15 @@ public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<BonusScore> bonuss = new ArrayList<BonusScore>();
 	private SpaceShip v;	
 	private long lifepoint = 5;
 	private Timer timer;
 	private long diff = 0;
-	private boolean triker = false;
+	private boolean trigger = false;
 	private double difficulty = 0.1;
 	private long score = 0;
+	private double bonus = 0.003;
 
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
@@ -45,15 +47,25 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
 
 	private void generateEnemy(){
-		Enemy e = new Enemy((int)(Math.random()*390), 30);
+		Enemy e = new Enemy((int)(Math.random()*390), 30, 5, 10,"e");
 		gp.sprites.add(e);
 		enemies.add(e);
 	}
+
+	private void generateBonus(){
+		BonusScore b = new BonusScore((int)(Math.random()*390), 30, 10, 10,"b");
+ 		gp.sprites.add(b);
+ 		bonuss.add(b);
+ 	}
 	
 	private void process(){
 		if(Math.random() < difficulty){
 			generateEnemy();
 		}
+
+		if(Math.random() < bonus){
+			generateBonus();
+  		}		  		
 		
 		Iterator<Enemy> e_iter = enemies.iterator();
 		while(e_iter.hasNext()){
@@ -61,7 +73,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			e.proceed();
 
 			if(diff > score % 30)
-				triker = true;
+				trigger = true;
 
 			diff = score % 30;
 
@@ -69,9 +81,9 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				if(e.width == 5){
 					score += 1;
-					if( ( timer.getDelay() >= 10 ) && ( triker == true ) ){
+					if( ( timer.getDelay() >= 10 ) && ( trigger == true ) ){
 						timer.setDelay(timer.getDelay() - 5);
-						triker = false;
+						trigger = false;
 					}
 				}		
 
@@ -80,8 +92,7 @@ public class GameEngine implements KeyListener, GameReporter{
 
 			}
 		}
-		
-		gp.updateGameUI(this);
+
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
@@ -96,6 +107,28 @@ public class GameEngine implements KeyListener, GameReporter{
 				return;
 			}
 		}
+
+
+		Iterator<BonusScore> b_iter = bonuss.iterator();
+		while(b_iter.hasNext()){
+			BonusScore b = b_iter.next();
+			b.proceed();
+			if(!b.isAlive()){
+					gp.sprites.remove(b);
+					b_iter.remove();
+			}
+			
+			er = b.getRectangle();
+			if (er.intersects(vr)){
+				gp.sprites.remove(b);
+				b_iter.remove();
+				score += 50;
+			}
+
+		}
+		gp.updateGameUI(this);
+		
+		
 	}
 	
 	public void die(){

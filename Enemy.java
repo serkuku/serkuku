@@ -10,8 +10,8 @@ public class Enemy extends Sprite{
 	private boolean alive = true;
 	private boolean clashable = true;
 	
-	public Enemy(int x, int y) {
-		super(x, y, 5, 10);
+	public Enemy(int x, int y, int width, int height, String type) {
+		super(x, y, 5, 10, type);
 		
 	}
 

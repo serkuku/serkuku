@@ -7,8 +7,8 @@ import javax.imageio.ImageIO;
 
 public class SpaceShip extends Sprite{
 	int step = 8;
-	public SpaceShip(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	public SpaceShip(int x, int y, int width, int height, String type) {
+		super(x, y, width, height, type);
 	}
 
 	public void draw(Graphics2D g) {

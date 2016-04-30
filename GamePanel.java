@@ -13,6 +13,7 @@ public class GamePanel extends JPanel {
 	private BufferedImage bi;	
 	Graphics2D big;
 	Graphics2D space;
+	Graphics2D bigbonus;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
 	public GamePanel() {
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel {
 		bi = new BufferedImage(400, 600, BufferedImage.TYPE_INT_ARGB);
 		big = (Graphics2D) bi.getGraphics();
 		space = (Graphics2D) bi.getGraphics();
+		bigbonus = (Graphics2D) bi.getGraphics();
 	}
 
 	public void updateGameUI(GameEngine reporter){
@@ -31,6 +33,8 @@ public class GamePanel extends JPanel {
 				s.draw(big);
 			if(s.width == 20)
 				s.draw(space);
+			else if(s.type == "b")
+ 				s.draw(bigbonus);
 
 
 		}
